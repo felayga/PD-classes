@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,6 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa;
@@ -31,7 +39,9 @@ public class Group extends Gizmo {
 
 	public static boolean freezeEmitters = false;
 	
-	public Group() {
+	public Group(int pos) {
+		super(pos);
+
 		members = new ArrayList<Gizmo>();
 		length = 0;
 	}
@@ -69,7 +79,7 @@ public class Group extends Gizmo {
 		for (int i=0; i < length; i++) {
 			Gizmo g = members.get( i );
 			if (g != null && g.exists && g.visible) {
-				g.draw();
+                g.draw();
 			}
 		}
 	}
@@ -115,6 +125,23 @@ public class Group extends Gizmo {
 		g.parent = this;
 		length++;
 		return g;
+	}
+
+	public void removeAt(int pos) {
+		for (int i = 0; i < length; i++) {
+			Gizmo test = members.get(i);
+
+			if (test != null){
+				if (test.pos == pos) {
+					test.killAndErase();
+				}
+				else if (test instanceof Group)
+				{
+					Group group = (Group)test;
+					group.removeAt(pos);
+				}
+			}
+		}
 	}
 	
 	public Gizmo addToBack( Gizmo g ) {

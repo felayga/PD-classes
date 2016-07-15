@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,23 +20,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa;
-
-import java.util.ArrayList;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import com.watabou.glscripts.Script;
-import com.watabou.gltextures.TextureCache;
-import com.watabou.input.Keys;
-import com.watabou.input.Touchscreen;
-import com.watabou.noosa.audio.Music;
-import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.BitmapCache;
-import com.watabou.utils.SystemTime;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -44,6 +38,20 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
+
+import com.watabou.glscripts.Script;
+import com.watabou.gltextures.TextureCache;
+import com.watabou.input.Keys;
+import com.watabou.input.Touchscreen;
+import com.watabou.noosa.audio.Music;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.BitmapCache;
+import com.watabou.utils.SystemTime;
+
+import java.util.ArrayList;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 public class Game extends Activity implements GLSurfaceView.Renderer, View.OnTouchListener {
 

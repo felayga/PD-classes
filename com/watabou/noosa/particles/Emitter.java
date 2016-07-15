@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,11 +20,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa.particles;
-
-import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 
@@ -26,6 +32,8 @@ import com.watabou.noosa.Group;
 import com.watabou.noosa.Visual;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public class Emitter extends Group {
 
@@ -50,16 +58,22 @@ public class Emitter extends Group {
 	protected float time;
 	
 	protected Factory factory;
-	
-	public void pos( float x, float y ) {
-		pos( x, y, 0, 0 );
+
+	public Emitter()
+	{
+		super(-1);
 	}
 	
-	public void pos( PointF p ) {
-		pos( p.x, p.y, 0, 0 );
+	public void pos( int pos, float x, float y ) {
+		pos( pos, x, y, 0, 0 );
 	}
 	
-	public void pos( float x, float y, float width, float height ) {
+	public void pos( int pos, PointF p ) {
+		pos( pos, p.x, p.y, 0, 0 );
+	}
+	
+	public void pos( int pos, float x, float y, float width, float height ) {
+		this.pos = pos;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -72,8 +86,8 @@ public class Emitter extends Group {
 		this.target = target;
 	}
 
-	public void pos( Visual target, float x, float y, float width, float height ) {
-		pos(x, y, width, height);
+	public void pos( Visual target, int pos, float x, float y, float width, float height ) {
+		pos(pos, x, y, width, height);
 		pos(target);
 	}
 	

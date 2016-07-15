@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,16 +20,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa;
-
-import java.util.ArrayList;
 
 import com.watabou.glwrap.Matrix;
 import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
+
+import java.util.ArrayList;
 
 public class Camera extends Gizmo {
 
@@ -104,7 +112,8 @@ public class Camera extends Gizmo {
 	}
 	
 	public Camera( int x, int y, int width, int height, float zoom ) {
-		
+		super(-1);
+
 		this.x = x;
 		this.y = y;
 		this.width = width;

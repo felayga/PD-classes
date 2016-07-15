@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,19 +20,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa;
 
-import java.nio.FloatBuffer;
+import android.graphics.Bitmap;
+import android.graphics.RectF;
 
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Matrix;
 import com.watabou.glwrap.Quad;
 
-import android.graphics.Bitmap;
-import android.graphics.RectF;
+import java.nio.FloatBuffer;
 
 public class BitmapText extends Visual {
 
@@ -169,6 +177,9 @@ public class BitmapText extends Visual {
 		
 		int length = text.length();
 		for (int i=0; i < length; i++) {
+			if (text.charAt(i) == '\n') {
+				continue;
+			}
 			RectF rect = font.get( text.charAt( i ) );
 	
 			float w = font.width( rect );

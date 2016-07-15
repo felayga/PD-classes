@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,6 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa;
@@ -50,6 +58,8 @@ public class Visual extends Gizmo {
 	public float angularSpeed;
 	
 	public Visual( float x, float y, float width, float height ) {
+		super(-1);
+
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -86,7 +96,7 @@ public class Visual extends Gizmo {
 		if (scale.x != 1 || scale.y != 1) {
 			Matrix.scale( matrix, scale.x, scale.y );
 		}
-		Matrix.translate( matrix, -origin.x, -origin.y );
+		Matrix.translate(matrix, -origin.x, -origin.y);
 	}
 	
 	public PointF point() {
@@ -201,7 +211,7 @@ public class Visual extends Gizmo {
 	}
 	
 	public void hardlight( int color ) {
-		hardlight( (color >> 16) / 255f, ((color >> 8) & 0xFF) / 255f, (color & 0xFF) / 255f );
+		hardlight((color >> 16) / 255f, ((color >> 8) & 0xFF) / 255f, (color & 0xFF) / 255f);
 	}
 	
 	public void resetColor() {
@@ -222,7 +232,22 @@ public class Visual extends Gizmo {
 			return false;
 		}
 	}
-	
+
+
+	public boolean overlapsLeftHalfPoint( float x, float y ) {
+		return x >= this.x && x < this.x + width * scale.x / 2 && y >= this.y && y < this.y + height * scale.y;
+	}
+
+	public boolean overlapsLeftHalfScreenPoint( int x, int y ) {
+		Camera c = camera();
+		if (c != null) {
+			PointF p = c.screenToCamera( x, y );
+			return overlapsLeftHalfPoint(p.x, p.y);
+		} else {
+			return false;
+		}
+	}
+
 	// true if its bounding box intersects its camera's bounds
 	public boolean isVisible() {
 		Camera c = camera();

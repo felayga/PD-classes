@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,6 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.utils;
@@ -28,6 +36,8 @@ public class PathFinder {
 	private static int[] queue;
 	
 	private static int size = 0;
+    private static int width = 0;
+    private static int height = 0;
 
 	private static int[] dir;
 	
@@ -36,8 +46,9 @@ public class PathFinder {
 		int size = width * height;
 		
 		if (PathFinder.size != size) {
-			
 			PathFinder.size = size;
+            PathFinder.width = width;
+            PathFinder.height = height;
 			distance = new int[size];
 			goals = new boolean[size];
 			queue = new int[size];
@@ -46,8 +57,7 @@ public class PathFinder {
 		}
 	}
 	
-	public static Path find( int from, int to, boolean[] passable ) {
-
+	public static Path find( int from, int to, boolean[] passable, boolean[] diagonal ) {
 		if (!buildDistanceMap( from, to, passable )) {
 			return null;
 		}
@@ -62,7 +72,6 @@ public class PathFinder {
 			int mins = s;
 			
 			for (int i=0; i < dir.length; i++) {
-				
 				int n = s + dir[i];
 				
 				int thisD = distance[n];
@@ -78,7 +87,7 @@ public class PathFinder {
 		return result;
 	}
 	
-	public static int getStep( int from, int to, boolean[] passable ) {
+	public static int getStep( int from, int to, boolean[] passable, boolean[] diagonal ) {
 		
 		if (!buildDistanceMap( from, to, passable )) {
 			return -1;
@@ -90,19 +99,32 @@ public class PathFinder {
 		
 		int step, stepD;
 		
-		for (int i=0; i < dir.length; i++) {
-
+		for (int i=0; i < 4; i++) {
 			if ((stepD = distance[step = from + dir[i]]) < minD) {
 				minD = stepD;
 				best = step;
 			}
 		}
 
+        if (diagonal[from]) {
+            for (int i = 4; i < 8; i++) {
+                step = from + dir[i];
+                if (!diagonal[step]) {
+                    continue;
+                }
+
+                if ((stepD = distance[step]) < minD) {
+                    minD = stepD;
+                    best = step;
+                }
+            }
+        }
+
 		return best;
 	}
 	
-	public static int getStepBack( int cur, int from, boolean[] passable ) {
-
+	public static int getStepBack( int cur, int from, boolean[] passable, boolean[] diagonal ) {
+        //todo: diagonal restrictions in fleeing
 		int d = buildEscapeDistanceMap( cur, from, 2f, passable );
 		for (int i=0; i < size; i++) {
 			goals[i] = distance[i] == d;
@@ -158,15 +180,13 @@ public class PathFinder {
 			}
 			int nextDistance = distance[step] + 1;
 			
-			for (int i=0; i < dir.length; i++) {
-
+			for (int i=0; i < 8; i++) {
 				int n = step + dir[i];
 				if (n == from || (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance))) {
 					// Add to queue
 					queue[tail++] = n;
 					distance[n] = nextDistance;
 				}
-					
 			}
 		}
 		

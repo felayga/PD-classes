@@ -1,5 +1,12 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,11 +20,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.gltextures;
-
-import java.util.HashMap;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,7 +33,10 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader.TileMode;
 
+import com.felayga.unpixeldungeon.utils.GLog;
 import com.watabou.glwrap.Texture;
+
+import java.util.HashMap;
 
 public class TextureCache {
 
@@ -53,7 +62,7 @@ public class TextureCache {
 		} else {
 		
 			Bitmap bmp = Bitmap.createBitmap( 1, 1, Bitmap.Config.ARGB_8888 );
-			bmp.eraseColor( color );
+			bmp.eraseColor(color);
 			
 			SmartTexture tx = new SmartTexture( bmp );
 			all.put( key, tx );
@@ -132,10 +141,21 @@ public class TextureCache {
 					context.getResources(), (Integer)src, bitmapOptions );
 				
 			} else if (src instanceof String) {
-				
-				return BitmapFactory.decodeStream(
-					context.getAssets().open( (String)src ), null, bitmapOptions );
-				
+				String string = (String)src;
+
+				Bitmap retval = BitmapFactory.decodeStream(
+					context.getAssets().open( string ), null, bitmapOptions );
+
+                if (string == "items.png") {
+                    int test = retval.getPixel(1, 6);
+                    if (test != -65536) {
+                        //todo: figure out rare texturecache fuckups concerning items.png
+                        GLog.d("bad items.png load? " + Integer.toHexString(test));
+                        GLog.d(1/0+" ");
+                    }
+                }
+
+                return retval;
 			} else if (src instanceof Bitmap) {
 				
 				return (Bitmap)src;

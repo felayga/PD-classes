@@ -1,5 +1,12 @@
 /*
- * Copyright (C) 2012-2015 Oleg Dolya
+ * Pixel Dungeon
+ * Copyright (C) 2012-2015  Oleg Dolya
+ *
+ * Shattered Pixel Dungeon
+ * Copyright (C) 2014-2015 Evan Debenham
+ *
+ * Unpixel Dungeon
+ * Copyright (C) 2015-2016 Randall Foudray
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,6 +20,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package com.watabou.noosa.particles;
@@ -21,7 +29,6 @@ import android.graphics.RectF;
 
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Random;
 
 public class BitmaskEmitter extends Emitter {
